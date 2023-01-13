@@ -1,0 +1,33 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: API-GATEWAY
+
+  cloud:
+    gateway:
+      routes:
+        - id: EMPLOYEE-SERVICE
+          uri: lb://EMPLOYEE-SERVICE
+          predicates:
+            - Path=/employees/**
+
+        - id: WORKHOUR-SERVICE
+          uri: lb://WORKHOUR-SERVICE
+          predicates:
+            - Path=/employeeleave/**
+
+        - id: ACCOUNTING-SERVICE
+          uri: lb://ACCOUNTING-SERVICE
+          predicates:
+            - Path=/accounting/**
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
